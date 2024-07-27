@@ -12,7 +12,8 @@
     "plugin:@typescript-eslint/recommended",
     "plugin:react/recommended",
     "plugin:prettier/recommended",
-    "plugin:react-hooks/recommended"
+    "plugin:react-hooks/recommended",
+    "plugin:@tanstack/eslint-plugin-query/recommended"
   ],
   "globals": {
     "React": "writable"
@@ -29,10 +30,12 @@
     "prettier",
     "@typescript-eslint",
     "react",
-    "react-hooks"
+    "react-hooks",
+    "@tanstack/query"
   ],
   "root": true,
   "rules": {
+    "@tanstack/query/exhaustive-deps": "error",
     "@typescript-eslint/array-type": [
       "warn",
       {
