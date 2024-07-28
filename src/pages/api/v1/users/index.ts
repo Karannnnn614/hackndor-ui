@@ -3,10 +3,12 @@ import type { NextApiRequest, NextApiResponse } from 'next';
 
 import type { User } from '@/types';
 
+import users from './users.json';
+
 export default function handler(
   req: NextApiRequest,
   res: NextApiResponse<
-    | User
+    | User[]
     | null
     | {
         error: string;
@@ -17,16 +19,7 @@ export default function handler(
     const token = getCookie('accessToken', { req, res });
 
     if (token === 'accessToken') {
-      res.status(200).json({
-        email: 'john@gmail.com',
-        id: 1,
-        firstName: 'John',
-        lastName: 'Doe',
-        phone: '+91-9999000034',
-        createdAt: '2019-04-26 18:03:50.941332',
-        updatedAt: '2019-04-26 18:03:50.941332',
-        role: 'ADMIN',
-      });
+      res.status(200).json(users);
     } else {
       res.status(403).json(null);
     }
