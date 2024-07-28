@@ -1,6 +1,6 @@
 import { User } from '@/types';
 import { getCookie } from 'cookies-next';
-import { useMemo } from 'react';
+import { useEffect, useState } from 'react';
 import { useGetCurrentUser } from './useGetCurrentUser';
 
 type Session =
@@ -15,28 +15,36 @@ type Session =
 
 export const useSession = () => {
   const accessToken = getCookie('accessToken');
+  const [session, setSession] = useState<Session>({
+    status: 'loading',
+    user: undefined,
+  });
 
   const { data, isError, isSuccess, isLoading } = useGetCurrentUser({
     enabled: !!accessToken,
   });
 
-  const session: Session = useMemo(() => {
+  useEffect(() => {
     if (isSuccess && data.status === 'success') {
-      return {
+      setSession({
         status: 'authenticated',
         user: data.user as User,
-      };
+      });
+
+      return;
     }
 
     if (isError) {
-      return { status: 'unauthenticated', user: undefined };
+      setSession({ status: 'unauthenticated', user: undefined });
+
+      return;
     }
 
     if (isLoading) {
-      return { status: 'loading', user: undefined };
-    }
+      setSession({ status: 'loading', user: undefined });
 
-    return { status: 'unauthenticated', user: undefined };
+      return;
+    }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [data, isError, isSuccess]);
 

@@ -20,6 +20,16 @@ export const RouteGuard = ({ Component, pageProps }: RouteGuardProps) => {
     Component.isPublic || session.status === 'authenticated';
 
   useEffect(() => {
+    if (
+      router.pathname === '/auth/login' &&
+      session.status === 'authenticated'
+    ) {
+      router.push('/');
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [router, session]);
+
+  useEffect(() => {
     if (!isAuthenticated && session.status !== 'loading') {
       router.push('/auth/login');
     }
