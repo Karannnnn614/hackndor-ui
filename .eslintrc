@@ -52,6 +52,19 @@
     "no-unused-vars": "warn",
     "no-var": "warn",
     "object-shorthand": "warn",
+    "padding-line-between-statements": [
+      "warn",
+      {
+        "blankLine": "always",
+        "next": "return",
+        "prev": "*"
+      },
+      {
+        "blankLine": "always",
+        "next": "if",
+        "prev": "*"
+      }
+    ],
     "prefer-const": "warn",
     "prettier/prettier": "warn",
     "quote-props": [

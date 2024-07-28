@@ -1,14 +1,24 @@
-import { ReactQueryDevtools } from '@tanstack/react-query-devtools';
+import { NextPage } from 'next';
 import type { AppProps } from 'next/app';
 
-import { ReactQueryProvider } from '@/providers/ReactQueryProvider';
-import '@/styles/globals.css';
+import { RouteGuard } from '@/components/RouteGuard';
+import { Providers } from '@/providers';
 
-export default function App({ Component, pageProps }: AppProps) {
+export type NextPageWithProperties<
+  P = Record<string, never>,
+  IP = P,
+> = NextPage<P, IP> & {
+  isPublic?: boolean;
+};
+
+type AppPropsWithProperties = AppProps & {
+  Component: NextPageWithProperties;
+};
+
+export default function App({ Component, pageProps }: AppPropsWithProperties) {
   return (
-    <ReactQueryProvider>
-      <ReactQueryDevtools initialIsOpen={false} />
-      <Component {...pageProps} />;
-    </ReactQueryProvider>
+    <Providers>
+      <RouteGuard Component={Component} pageProps={pageProps} />
+    </Providers>
   );
 }
